@@ -1,0 +1,21 @@
+.hide-scrollbar::-webkit-scrollbar {
+    width: 0.5rem; /* Adjust the width to your preference, 0.5rem is just an example */
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar-track {
+    background: rgb(244, 240, 240); /* Hide the scrollbar track */
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent; /* Hide the scrollbar thumb */
+  }
+  /* .sidebar {
+    
+  height: calc(100vh - 50px);
+  overflow-y: scroll;
+  position: sticky;
+  top: 50px;
+   
+  }
+   */
+ 
