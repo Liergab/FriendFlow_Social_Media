@@ -169,33 +169,46 @@ export const unFollow =  asyncHandler(async (req, res) => {
 // @path - v1/api/user/follower
 // @access - private
 export const getFollowers = async(req, res) => {
-try {
+    try {
+        const userId = (req.params.userId)
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ error: 'Invalid userId' });
+        }
+        const user = await userModel.findById(userId);
+        const friends = await Promise.all(
+            user.followings.map((friendId) => {
+                return userModel.findById(friendId)
+            })
+        )
 
-    const userId = (req.params.userId)
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ error: 'Invalid userId' });
-    }
-
-    const user = await userModel.findById(userId);
-    const friends = await Promise.all(
-        user.followings.map((friendId) => {
-            return userModel.findById(friendId)
+        let friendist = []
+        friends.map((friend) => {
+            const {_id, username, profilePicture} = friend;
+            friendist.push({_id, username, profilePicture})
         })
-    )
+        res.status(200).json(friendist)
 
-    let friendist = []
-    friends.map((friend) => {
-        const {_id, username, profilePicture} = friend;
-        friendist.push({_id, username, profilePicture})
+    } catch (error){
+        console.log(error)
+    }
+}
+
+// @describe - get followers
+// @path - v1/api/user/follower
+// @access - private
+
+export const getAllUser = async(req,res) => {
+    const user = await userModel.find()
+
+    let users = []
+    user.map((u) => {
+        const{_id, username, profilePicture} = u
+        users.push({_id,username,profilePicture})
     })
-    res.status(200).json(friendist)
 
-} catch (error) {
-    console.log(error)
+    res.status(200).json(users)
 }
- 
-}
+
 
   
 
