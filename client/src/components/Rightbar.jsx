@@ -12,9 +12,13 @@ import {PlusIcon, MinusIcon} from '@heroicons/react/24/solid'
 import { useEffect, useState } from "react";
 
 
-
 const Rightbar = ({user}) => {
-  
+   
+  const {data:alluser,isLoading:userLoading} = useQuery(['allUser'], async() => {
+      const response = await axios.get(`http://localhost:8001/v1/api/users/all`)
+      return response.data
+  })
+
   const queryClient = useQueryClient()
   const apiFollowed = useMutation({
     mutationFn:ApiFollowed,
@@ -29,10 +33,11 @@ const Rightbar = ({user}) => {
       queryClient.invalidateQueries({queryKey:['userById']})
     }
   });
-
-
+  
   const [followed, setFollowed] = useState()
+
   const {data:currentUser} = ApiGetUser()
+
   const {data:frnd, isLoading} = useQuery(['userfriend', user?._id], async() => {
     if(user?._id) {
       const response = await axios.get('http://localhost:8001/v1/api/users/following/'+user?._id)
@@ -87,9 +92,9 @@ const Rightbar = ({user}) => {
           <img src={ads} alt="" className='p-1 : rounded-2xl'/>
         </Card>
         <div className='space-y-4'>
-          <h1 className='font-bold'>Online Friends</h1>
-          {Users.map ((s) => (
-                <OnlineFrnd key={s.id} user={s}/>
+          <h1 className='font-bold'>Suggestion Friend</h1>
+          {alluser && alluser.map ((s) => (
+                <OnlineFrnd key={s?._id} user={s}/>
           ))}
         </div>
       </>
