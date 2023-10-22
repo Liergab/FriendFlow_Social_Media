@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import OnlineFrnd from "./Online/OnlineFrnd"
-import { Users } from "../Dummydata"
 import fbgift from '../assets/image/fbgift.png';
 import ads from '../assets/image/ads.jpeg';
 import {Card,List, ListItem,Button} from '@material-tailwind/react';
@@ -14,7 +13,7 @@ import { useEffect, useState } from "react";
 
 const Rightbar = ({user}) => {
    
-  const {data:alluser,isLoading:userLoading} = useQuery(['allUser'], async() => {
+  const {data:alluser} = useQuery(['allUser'], async() => {
       const response = await axios.get(`http://localhost:8001/v1/api/users/all`)
       return response.data
   })
@@ -49,10 +48,7 @@ const Rightbar = ({user}) => {
     
     useEffect(() => {
       if (currentUser && user?._id) {
-        setFollowed(currentUser?.followings.includes(user?._id))
-        console.log(user?._id)
-        console.log(`requser: ${currentUser?._id}`)
-        
+        setFollowed(currentUser?.followings.includes(user?._id))  
     }
     },[currentUser,user?._id])
 
