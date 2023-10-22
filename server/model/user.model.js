@@ -24,7 +24,7 @@ const usersSchema = new Schema({
     },
     coverPicture:{
         type:String,
-        default:'coverphoto,jpeg'
+        default:'coverphoto.jpeg'
     },
     followers:{
         type:Array,
