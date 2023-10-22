@@ -6,7 +6,11 @@ import { useEffect } from 'react';
 import { ApiCreatePost } from '../../hooks/usePostApi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+
+
 const Share = ({user,profile}) => {
+  
+
   const queryClient = useQueryClient()
   const createPost = useMutation({
     mutationFn: ApiCreatePost,
